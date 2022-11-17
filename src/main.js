@@ -32,19 +32,6 @@ function getConfig(request) {
   var config = cc.getConfig();
 
   config.newTextInput()
-    .setId('awsAccessKeyId')
-    .setName('AWS_ACCESS_KEY_ID');
-
-  config.newTextInput()
-    .setId('awsSecretAccessKey')
-    .setName('AWS_SECRET_ACCESS_KEY');
-
-  config.newTextInput()
-    .setId('awsRegion')
-    .setName('AWS Region')
-    .setPlaceholder('us-east-1');
-
-  config.newTextInput()
     .setId('databaseName')
     .setName('Glue Database Name')
     .setPlaceholder('e.g. default');
@@ -52,12 +39,6 @@ function getConfig(request) {
   config.newTextInput()
     .setId('tableName')
     .setName('Glue Table Name');
-
-  config.newTextInput()
-    .setId('outputLocation')
-    .setName('Query Output Location')
-    .setHelpText('S3 path to store the Athena query results')
-    .setPlaceholder('s3://<bucket>/<directory>');
 
   config.newTextInput()
     .setId('dateRangeColumn')
@@ -95,23 +76,11 @@ function throwUserError(message) {
  */
 function validateConfig(configParams) {
   configParams = configParams || {};
-  if (!configParams.awsAccessKeyId) {
-    throwUserError('AWS_ACCESS_KEY_ID is empty.');
-  }
-  if (!configParams.awsSecretAccessKey) {
-    throwUserError('AWS_SECRET_ACCESS_KEY is empty.');
-  }
-  if (!configParams.awsRegion) {
-    throwUserError('AWS Region is empty.');
-  }
   if (!configParams.databaseName) {
     throwUserError('Database Name is empty.');
   }
   if (!configParams.tableName) {
     throwUserError('Table Name is empty.');
-  }
-  if (configParams.outputLocation.indexOf('s3://') !== 0) {
-    throwUserError('Query Output Location must in the format of s3://<bucket>/<directory>');
   }
   if (configParams.rowLimit) {
     var rowLimit = parseInt(configParams.rowLimit);

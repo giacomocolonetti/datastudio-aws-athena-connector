@@ -72,12 +72,16 @@ function glueTableToFields(table) {
  */
 function getFieldsFromGlue(request) {
   var params = request.configParams;
-  AWS.init(params.awsAccessKeyId, params.awsSecretAccessKey);
+  var awsAccessKeyId = PropertiesService.getScriptProperties().getProperty('AWS_ACCESS_KEY_ID')
+  var awsSecretAccessKey = PropertiesService.getScriptProperties().getProperty('AWS_ACCESS_KEY_SECRET')
+  var awsRegion = PropertiesService.getScriptProperties().getProperty('AWS_REGION')
+
+  AWS.init(awsAccessKeyId, awsSecretAccessKey);
 
   var payload = {
     'DatabaseName': params.databaseName,
     'Name': params.tableName
   };
-  var result = AWS.post('glue', params.awsRegion, 'AWSGlue.GetTable', payload);
+  var result = AWS.post('glue', awsRegion, 'AWSGlue.GetTable', payload);
   return glueTableToFields(result.Table);
 }

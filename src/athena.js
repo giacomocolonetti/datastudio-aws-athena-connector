@@ -214,16 +214,21 @@ function getDataFromAthena(request) {
   var schema = requestedFields.build();
 
   var params = request.configParams;
-  AWS.init(params.awsAccessKeyId, params.awsSecretAccessKey);
+  var awsAccessKeyId = PropertiesService.getScriptProperties().getProperty('AWS_ACCESS_KEY_ID')
+  var awsSecretAccessKey = PropertiesService.getScriptProperties().getProperty('AWS_ACCESS_KEY_SECRET')
+  var awsRegion = PropertiesService.getScriptProperties().getProperty('AWS_REGION')
+  var outputLocation = PropertiesService.getScriptProperties().getProperty('QUERY_OUTPUT_LOCATION')
+
+  AWS.init(awsAccessKeyId, awsSecretAccessKey);
 
   // Generate and submit query
   var query = generateAthenaQuery(request, fields);
-  var runResult = runAthenaQuery(params.awsRegion, params.databaseName, query, params.outputLocation);
+  var runResult = runAthenaQuery(awsRegion, params.databaseName, query, outputLocation);
   var queryExecutionId = runResult.QueryExecutionId;
-  waitAthenaQuery(params.awsRegion, queryExecutionId);
+  waitAthenaQuery(awsRegion, queryExecutionId);
 
   // Fetch and transform data
-  var queryResults = getAthenaQueryResults(params.awsRegion, queryExecutionId);
+  var queryResults = getAthenaQueryResults(awsRegion, queryExecutionId);
   var rows = queryResultsToRows(schema, queryResults);
 
   return {
