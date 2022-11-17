@@ -57,8 +57,9 @@ Key                      | Value
 -------------------------| -----
 `AWS_ACCESS_KEY_ID`      | {KEY}
 `AWS_SECRET_ACCESS_KEY`  | {SECRET}
-`AWS Region`             | {AWS_REGION}
-`Query Output Location`  | `s3://aws-athena-query-results-{account_id}-us-west-2/data-studio`
+`AWS_REGION`             | {AWS_REGION}
+`QUERY_OUTPUT_LOCATION`  | `s3://aws-athena-query-results-{account_id}-us-west-2/data-studio`
+
 
 In the connector, fill in the values like this:
 
