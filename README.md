@@ -52,16 +52,20 @@ You could then try `SELECT * FROM "default"."cloudfront_logs" limit 10;` to prev
 
 ### Setup Connector
 
-In the connector, fill in the values like this:
-
+In Apps Script, fill in the project properties like this:
 Key                      | Value
 -------------------------| -----
 `AWS_ACCESS_KEY_ID`      | {KEY}
 `AWS_SECRET_ACCESS_KEY`  | {SECRET}
 `AWS Region`             | {AWS_REGION}
+`Query Output Location`  | `s3://aws-athena-query-results-{account_id}-us-west-2/data-studio`
+
+In the connector, fill in the values like this:
+
+Key                      | Value
+-------------------------| -----
 `Glue Database Name`     | `default`
 `Glue Table Name`        | `cloudfront_logs`
-`Query Output Location`  | `s3://aws-athena-query-results-{account_id}-us-west-2/data-studio`
 `Date Range Column Name` | `LogDate`
 
 For `Query Output Location`, AWS should have created a S3 bucket to store the query results, you could find the bucket name in S3 console.
